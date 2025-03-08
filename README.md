@@ -33,19 +33,6 @@ A **grant type** in OAuth2 is a method by which a client application obtains an 
 
 ### Authorization Code Grant
 
-![Authorization Code Grant](img/Authorization-Code-Diagram.png)
-
-The **Authorization Code Grant** is used by web applications and follows a redirection-based flow to obtain an access token securely.
-
-#### Steps:
-
-1. The user accesses a web application and is redirected to an **Authorization Server** for authentication.
-2. The user logs in, and if successful, the Authorization Server redirects back to the application with an **authorization code**.
-3. The application exchanges this authorization code for an **access token**.
-4. The access token is then used to request protected resources from the **Resource Server**.
-
-
-
 ```mermaid
 sequenceDiagram
   actor User
@@ -68,21 +55,21 @@ sequenceDiagram
   App Server->>Browser:display data/index.html
 ```
 
+The **Authorization Code Grant** is used by web applications and follows a redirection-based flow to obtain an access token securely.
+
+#### Steps:
+
+1. The user accesses a web application and is redirected to an **Authorization Server** for authentication.
+2. The user logs in, and if successful, the Authorization Server redirects back to the application with an **authorization code**.
+3. The application exchanges this authorization code for an **access token**.
+4. The access token is then used to request protected resources from the **Resource Server**.
+
 ---
 
 ### Implicit Grant
 
-![implicit flow grant](img/Implicit-Flow-Diagram.png)
-
-The **Implicit Grant** is used for single-page applications (SPAs) where storing client secrets securely is not possible. It directly provides an access token.
-
-#### Steps
-
-1. The user is redirected to the **Authorization Server**, logs in, and approves access.
-2. Instead of returning an authorization code, the Authorization Server directly returns an **access token** in the URL.
-3. The client application uses this token to access the **Resource Server**.
-
 ```mermaid
+sequenceDiagram
   actor User
   participant Browser
   participant App Server
@@ -101,19 +88,18 @@ The **Implicit Grant** is used for single-page applications (SPAs) where storing
   Resource Server->>Browser:return data
 ```
 
----
-
-### Resource Owner Password Credentials Grant
-![resource owner password credentials](img/Resource-Owner-Password-Credentials-Diagram.png)
-
-Used when the application is **trusted**, and the user directly provides their credentials to the client application.
+The **Implicit Grant** is used for single-page applications (SPAs) where storing client secrets securely is not possible. It directly provides an access token.
 
 #### Steps
 
-1. The user enters their credentials directly into the application.
-2. The application sends these credentials to the **Authorization Server**.
-3. If valid, the Authorization Server responds with an **access token**.
-4. The application uses the access token to request data from the **Resource Server**.
+1. The user is redirected to the **Authorization Server**, logs in, and approves access.
+2. Instead of returning an authorization code, the Authorization Server directly returns an **access token** in the URL.
+3. The client application uses this token to access the **Resource Server**.
+
+
+---
+
+### Resource Owner Password Credentials Grant
 
 ```mermaid
 sequenceDiagram
@@ -134,18 +120,18 @@ sequenceDiagram
   App Server->>Browser: index.html
 ```
 
+Used when the application is **trusted**, and the user directly provides their credentials to the client application.
+
+#### Steps
+
+1. The user enters their credentials directly into the application.
+2. The application sends these credentials to the **Authorization Server**.
+3. If valid, the Authorization Server responds with an **access token**.
+4. The application uses the access token to request data from the **Resource Server**.
+
 ---
 
 ### Client Credentials Grant
-![client credentials](img/Client-Credentials-Flow.png)
-
-Used when a client application needs to access its own resources without user intervention.
-
-#### Explanation
-
-1. The application sends its **client ID and secret** to the **Authorization Server**.
-2. If valid, the Authorization Server responds with an **access token**.
-3. The application uses the token to access the **Resource Server**.
 
 ```mermaid
 sequenceDiagram
@@ -159,20 +145,17 @@ sequenceDiagram
   Resource Server->>App Server:Return data
 ```
 
+Used when a client application needs to access its own resources without user intervention.
+
+#### Explanation
+
+1. The application sends its **client ID and secret** to the **Authorization Server**.
+2. If valid, the Authorization Server responds with an **access token**.
+3. The application uses the token to access the **Resource Server**.
+
 ---
 
 ### Refresh Token Grant
-![RefreshToken-diagram](img/RefreshToken-diagram.png)
-
-Allows clients to obtain a **new access token** using a refresh token without requiring user intervention.
-
-#### Steps
-
-1. The client application initially receives both an **access token** and a **refresh token** after a successful authentication process using a grant type(e.g. Authorization Code grant).
-2. The client uses the **access token** to request protected resources.
-3. When the **access token** expires,  the client sends the **refresh token** to the **Authorization Server**.
-4. If the **refresh token** is valid, the Authorization Server returns a new **access token** (and optionally a new **refresh token**).
-5. The client continues using the new access token to access resources.
 
 ```mermaid
 sequenceDiagram
@@ -200,21 +183,18 @@ sequenceDiagram
     ResourceServer-->>ClientApplication: Returns requested resources
 ```
 
+Allows clients to obtain a **new access token** using a refresh token without requiring user intervention.
+
+#### Steps
+
+1. The client application initially receives both an **access token** and a **refresh token** after a successful authentication process using a grant type(e.g. Authorization Code grant).
+2. The client uses the **access token** to request protected resources.
+3. When the **access token** expires,  the client sends the **refresh token** to the **Authorization Server**.
+4. If the **refresh token** is valid, the Authorization Server returns a new **access token** (and optionally a new **refresh token**).
+5. The client continues using the new access token to access resources.
+
+
 ### Device Authorization Grant
-
-![Device Authorization Grant](img/device-flow-diagram.png)
-
-Used for devices with limited input capabilities, such as smart TVs and IoT devices.
-
-#### Steps:
-1. The user initiates the device authorization.
-2. The device requests authorization from the **Authorization Server**.
-3. The Authorization Server returns a **device code** and a **user code**.
-4. The device displays the **user code** and **verification URI**.
-5. The user navigates to the verification URI and enters the **user code**.
-6. The Authorization Server prompts the user to authorize the device.
-7. Once approved, the device polls the Authorization Server for the access token.
-8. The Authorization Server issues an **access token**.
 
 ```mermaid
 sequenceDiagram
@@ -239,10 +219,21 @@ sequenceDiagram
     Device->>ClientApplication: Uses access token to access resources
     ClientApplication-->>Device: Returns requested resources
 ```
+Used for devices with limited input capabilities, such as smart TVs and IoT devices.
+
+#### Steps:
+1. The user initiates the device authorization.
+2. The device requests authorization from the **Authorization Server**.
+3. The Authorization Server returns a **device code** and a **user code**.
+4. The device displays the **user code** and **verification URI**.
+5. The user navigates to the verification URI and enters the **user code**.
+6. The Authorization Server prompts the user to authorize the device.
+7. Once approved, the device polls the Authorization Server for the access token.
+8. The Authorization Server issues an **access token**.
+
 
 ---
 
----
 
 ## Conclusion
 
