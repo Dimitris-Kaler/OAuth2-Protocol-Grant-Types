@@ -193,6 +193,7 @@ Allows clients to obtain a **new access token** using a refresh token without re
 4. If the **refresh token** is valid, the Authorization Server returns a new **access token** (and optionally a new **refresh token**).
 5. The client continues using the new access token to access resources.
 
+---
 
 ### Device Authorization Grant
 
