@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor User
+  participant Browser
+  participant App Server
+  participant Authorization Server
+  participant Resource Server
+
+  User ->> Browser: 
+  Browser ->> App Server: GET/index.html
+  App Server -->> Authorization Server: Redirect to Authorization Server
+  Authorization Server ->> Browser: Display Login Page
+  Browser ->> Authorization Server: Enters Credentials(username,password)
+  Authorization Server ->> Authorization Server: User Authentication
+  Authorization Server -->> App Server: Redirect back to app wihth grant code(auth code)
+  App Server ->> Authorization Server: get tokens by sending the grant code(auth code)
+  Authorization Server ->> App Server: return access token
+  App Server ->> Resource Server: get data sending the token
+  Resource Server->>App Server:return data
+  App Server->>Browser:display data/index.html

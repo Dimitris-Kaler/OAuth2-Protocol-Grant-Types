@@ -1,0 +1,23 @@
+sequenceDiagram
+    actor User
+    participant ClientApplication
+    participant AuthorizationServer
+    participant ResourceServer
+
+    User->>ClientApplication: Initiates login
+    ClientApplication->>AuthorizationServer: Redirects to authorization endpoint
+    AuthorizationServer->>User: Prompts for authentication
+    User->>AuthorizationServer: Provides credentials
+    AuthorizationServer-->>ClientApplication: Returns authorization code
+    ClientApplication->>AuthorizationServer: Exchanges authorization code for tokens (access token + refresh token)
+    AuthorizationServer-->>ClientApplication: Returns access token and refresh token
+
+    ClientApplication->>ResourceServer: Uses access token to access resources
+    ResourceServer-->>ClientApplication: Returns requested resources
+
+    Note over ClientApplication,AuthorizationServer: Access token expires
+    ClientApplication->>AuthorizationServer: Requests new access token using refresh token
+    AuthorizationServer-->>ClientApplication: Returns new access token (and optionally a new refresh token)
+
+    ClientApplication->>ResourceServer: Uses new access token to access resources
+    ResourceServer-->>ClientApplication: Returns requested resources

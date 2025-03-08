@@ -1,0 +1,9 @@
+sequenceDiagram
+  participant App Server
+  participant Authorization Server
+  participant Resource Server
+
+  App Server ->> Authorization Server: Send Refresh Token
+  Authorization Server ->> App Server: New Access Token
+  App Server ->> Resource Server: Get data sending the new token
+  Resource Server ->> App Server: Return data

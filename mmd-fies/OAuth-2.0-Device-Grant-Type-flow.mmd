@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor User
+    participant Device
+    participant AuthorizationServer
+    participant ClientApplication
+
+    User->>Device: Initiates device authorization
+    Device->>AuthorizationServer: Request device authorization
+    AuthorizationServer-->>Device: Returns device code and user code
+    Device-->>User: Displays user code and verification URI
+
+    User->>AuthorizationServer: Navigates to verification URI and enters user code
+    AuthorizationServer->>User: Prompts user to authorize the device
+    User->>AuthorizationServer: Authorizes the device
+
+    AuthorizationServer->>Device: Polling for authorization status
+    Device->>AuthorizationServer: Polling request with device code
+    AuthorizationServer-->>Device: Returns access token (if authorized)
+
+    Device->>ClientApplication: Uses access token to access resources
+    ClientApplication-->>Device: Returns requested resources

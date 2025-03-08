@@ -1,0 +1,16 @@
+  actor User
+  participant Browser
+  participant App Server
+  participant Authorization Server
+  participant Resource Server
+
+  User ->> Browser: 
+  Browser ->> App Server: GET/index.html
+  App Server -->> Authorization Server: Redirect or popup to Authorization Server
+  Authorization Server ->> Browser: Display Login Page
+  Browser ->> Authorization Server: Enters Credentials(username,password)
+  Authorization Server ->> Authorization Server: User Authentication/Credentials validated
+  Authorization Server -->> App Server: Redirect back to app with access token in the URL
+  App Server-->>Browser:Token
+  Browser ->> Resource Server: get data sending the token
+  Resource Server->>Browser:return data
